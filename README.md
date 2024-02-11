@@ -1,7 +1,7 @@
 # AI_emotion_classification
 [인공지능] 감정 분석기 with. Chat GPT
 
-> [팀과제] ChatGPT의 코딩 요청하여 코딩 수준을 평가한 후 보고서를 작성하여 제출
+> [팀과제] ChatGPT의 코딩 요청하여 코딩 수준을 평가한 후 보고서를 작성하여 제출 (2023.5.24)
 
 팀에서 프로그램 하나를 정해 챗GPT에게 요청한 후, 코딩 수준을 평가한 후, 보고서로 작성하여 제출
 팀에서 선정한 프로그램을 chatGPT더러 만들어 달라고 하고, 그 결과를 가지고 여러가지 시험을 해보면 됩니다.
@@ -25,10 +25,8 @@
 
 ## Transfer Learning(전이학습)
 
-<aside>
-📌 **학습 데이터가 부족한 분야의 모델 구축을 위해 데이터가 풍부한 분야에서 훈련된 모델을 재사용하는 학습 기법**
 
-</aside>
+>📌 **학습 데이터가 부족한 분야의 모델 구축을 위해 데이터가 풍부한 분야에서 훈련된 모델을 재사용하는 학습 기법**
 
 - 데이터 수가 많지 않거나 데이터를 확보하는데 많은 비용이 들 수 있음. 이를 해결하기 위해 사용함
 - 특정 분야에서 학습된 신경망의 일부 능력을 유사하거나 전혀 새로운 분야에서 사용되는 신경망의 학습에 이용하는 방법
@@ -49,18 +47,14 @@
 
 **⇒ 이러한 이유들로 인해 이미 잘 훈련된 모델이 있고, 만드려는 모델과 유사한 문제를 해결하는 모델일 경우 Transfer Learning(전이학습) 사용**
 
-<aside>
-📌 **이때 사용방법 : Fine-Tuning**
 
-</aside>
+>📌 **이때 사용방법 : Fine-Tuning**
 
 ## Fine Tuning (파인 튜닝)
 
-<aside>
-📌 **기존에 학습되어져 있는 모델을 기반으로 아키텍쳐를 새로운 목적에 맞게 변형하고 
+>📌 **기존에 학습되어져 있는 모델을 기반으로 아키텍쳐를 새로운 목적에 맞게 변형하고 
 이미 학습된 모델 Weights로 부터 학습을 업데이트 하는 방법**
 
-</aside>
 
 - 사전에 학습된 모델을 기반으로 특정 작업에 대한 추가 학습을 수행하여, 아키텍처를 새로운 목적에 맞게 변형하고 이미 학습된 모델의 가중치를 미세하게 조정하여 학습 시키는 방법
     - ex. 의료분야 챗봇을 만들기 위해 일반적인 언어 데이터셋뿐만 아니라 의료 관련 언어 데이터셋에 대해 추가 학습이 필요함
@@ -95,6 +89,9 @@
 (만든 파일은 따로 참고하는 게 좋을 듯!)
 
 ## 1. 환경 설정(🚨Error발생)
+![1](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/5f6e4bee-e290-426f-9b20-15ce6f1ca0b0)
+
+![2](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/768b0ca3-4886-4db4-8497-005dbb5b6c70)
 
 KoBERT가 요구하는 최신 정보를 토대로 필요한 패키지를 설치한다. 
 
@@ -112,16 +109,20 @@ KoBERT가 요구하는 최신 정보를 토대로 필요한 패키지를 설치�
 ## 2. github에서 KoBERT 파일을 로드하고 KoBERT모델을 불러오기
 
 - 깃허브 파일의 kobert_tokenizer폴더를 다운받는다.
-    
+![3](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/7f58a279-ffc2-497d-bf30-b9394f59d5dd)
+
     ```python
     !pip install 'git+https://github.com/SKTBrain/KoBERT.git#egg=kobert_tokenizer&subdirectory=kobert_hf'
     ```
+
     
 - 불러온 후, 우리가 필요한 tokenizer와 model, vocabulary를 불러온다.
     - tokenizer : `tokenizer`
     - model : `bertmodel`
     - vocabulary: `vocab`
-    
+      
+    ![4](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/5bd59275-866b-4cec-b81e-9328cf103763)
+
     ```python
     from kobert_tokenizer import KoBERTTokenizer # 한국어 BERT 모델에 대한 tokenizer를 import
     from transformers import BertModel # transformers 라이브러리에서 BertModel을 import
@@ -144,6 +145,7 @@ KoBERT가 요구하는 최신 정보를 토대로 필요한 패키지를 설치�
 사전 학습된(pre-trained) 모델인 BERT를 사용할 때는 transformers라는 패키지를 자주 사용하기 때문에 호출하였다.
 
 또한, 학습시간을 줄이기 위해 GPU를 사용한다.
+
 
 ```python
 import torch
@@ -169,14 +171,18 @@ device = torch.device("cuda:0")
 
 이전에 AiHub에 기재되었던 데이터(현재는 없음)를 올려준 블로그를 통해서 다운 받았다.
 
+
+![5](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/4c8aae58-eebb-446d-87b5-4b404342dfab)
+
 ```python
 data = pd.read_excel('/home/jihwan/MinJeong Archive/감정분류데이터셋.xlsx')
 data.sample(n=10)
 ```
+![Untitled](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/6eb7d4c1-6400-4109-994b-d27ed87dc563)
 
-![Untitled](%E1%84%80%E1%85%A1%E1%86%B7%E1%84%8C%E1%85%A5%E1%86%BC%20%E1%84%87%E1%85%AE%E1%86%AB%E1%84%85%E1%85%B2%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7%2044433a1fa2b347b2958b1377ed2f119d/Untitled.png)
 
 해당 데이터 셋에 대해서 총 7개의 감정 class를 0~6개의 숫자(label)에 대응시켜 data_list에 담아준다.
+![6](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/0fd1ccbb-d68d-4909-899c-0b2492dd9cdf)
 
 ```python
 #loc를 사용하여 'Emotion' 열의 값이 특정 문자열과 일치하는 행을 찾고, 해당 행들의 'Emotion' 열 값을 새로운 값으로 변경하는 작업을 수행
@@ -202,6 +208,7 @@ for ques, label in zip(data['Sentence'], data['Emotion'])  :
 ## 5. 입력 데이터셋을 토큰화하기 (🚨Error발생)
 
 각 데이터가 BERT 모델의 입력으로 들어갈 수 있도록 **tokenization, int encoding, padding** 등을 해주는 코드이다.
+
 
 ```python
 class BERTDataset(Dataset):
@@ -235,6 +242,10 @@ class BERTDataset(Dataset):
         - def __init__에서 input에 vocab를 받는 부분 추가,  self._vocab = vocab 을 추가하고,def __call__에서 vocab = self._vocab로 바꿔주셨다.
 
 BERT 모델에 적합한 형태로 데이터를 변환하는 클래스인 **`BERTSentenceTransform`**를 재정의
+
+![7(1)](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/204dac3d-3d5c-4b4a-a9db-934a8ae91f33)
+![7(2)](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/9e1d28c4-045e-4b54-a1e5-0a15553ac6c4)
+
 
 ```python
 class BERTSentenceTransform:
@@ -330,6 +341,8 @@ class BERTSentenceTransform:
 
 이후 BERTDataset을 다시 정의한다. 해당 부분은 위와 
 
+![8](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/03d2de05-915d-49cc-9ed4-b53370fa7065)
+
 ```python
 from kobert_tokenizer import KoBERTTokenizer
 from transformers import BertModel
@@ -373,6 +386,7 @@ class BERTDataset(Dataset):
 
 이를 통해 data_train에서 `tok`으로 설정했던 부분을 `tokenizer`로 설정하여 수정하였다.
 
+
 ```python
 tokenizer = KoBERTTokenizer.from_pretrained('skt/kobert-base-v1') #미리 훈련된 'skt/kobert-base-v1' 모델을 기반으로 KoBERT 토크나이저를 로드합니다.
 bertmodel = BertModel.from_pretrained('skt/kobert-base-v1', return_dict=False) # 마찬가지로 'skt/kobert-base-v1' 모델을 기반으로 BertModel을 로드합니다. 'return_dict=False'는 모델 출력을
@@ -387,6 +401,8 @@ data_test = BERTDataset(dataset_test, 0, 1, tokenizer, vocab, max_len, True, Fal
 
 `parameter`의 경우, 예시 코드에 있는 값들을 동일하게 설정해주었다.
 
+![9](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/8421db3b-ee12-479a-a486-0a45334803fb)
+
 ```python
 # Setting parameters
 max_len = 64
@@ -400,6 +416,8 @@ learning_rate =  5e-5
 
 사이킷런에서 제공해주는 `train_test_split` 메서드를 활용해 기존 `data_list`를 **train 데이터셋과 test 데이터셋**으로 나눈다. 5:1 비율로 나누었다.
 
+![10](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/dd49f317-71fc-44cc-9a2d-86e313fab966)
+
 ```python
 #train & test 데이터로 나누기
 from sklearn.model_selection import train_test_split
@@ -407,7 +425,8 @@ dataset_train, dataset_test = train_test_split(data_list, test_size=0.2, shuffle
 ```
 
 위에서 구현한 `BERTDataset` 클래스를 활용해 **tokenization, int encoding, padding** 을 진행하였다.
-
+![11](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/7af85489-48b1-4fd5-b32e-acb2a229c836)
+<<!!!!!!!!!>>
 ```python
 train_dataloader = torch.utils.data.DataLoader(data_train, batch_size=batch_size, num_workers=5)
 test_dataloader = torch.utils.data.DataLoader(data_test, batch_size=batch_size, num_workers=5)
@@ -416,6 +435,7 @@ test_dataloader = torch.utils.data.DataLoader(data_test, batch_size=batch_size, 
 torch 형식의 dataset을 만들어주면서, 입력 데이터셋의 처리가 모두 끝났다.
 
 ## 6. KoBERT 모델 구현하기
+![12](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/e3969ffe-f240-4f42-a7dd-f5647fb4bb4c)
 
 ```python
 class BERTClassifier(nn.Module):
@@ -451,6 +471,7 @@ class BERTClassifier(nn.Module):
 ```
 
 BERT모델을 불러온다. 
+![13](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/a1ef00a1-c24e-481c-b2ed-86609a7c4a63)
 
 ```python
 # BERTClassifier 클래스를 사용해 모델을 생성
@@ -488,6 +509,8 @@ train_dataloader
 - 앞서 이 모델에서 학습시킬 수 있도록 입력 데이터셋을 처리하고, 파라미터를 모두 지정하였으므로 예시 코드와 동일하게 진행하였다.
 - 이 부분에서 원본 예제 코드와 다른 점은 정확도가 초반에 17%로 나왔다는 것이었다.
 - 따라서, 이 부분을 위하여 위에 `tokens_a = self._tokenizer(text_a)`로 되어 있던 부분을 `tokens_a = self._tokenizer.tokenize(text_a)`로 수정함으로써 정확도를 높였다.
+
+![14(1)](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/a66d4a00-0f53-4eb9-85df-cd8591b7b447)
 
 ```python
 train_history = []  # 훈련 정확도 기록 리스트
@@ -539,8 +562,7 @@ for e in range(num_epochs):
     print("epoch {} test acc {}".format(e + 1, test_acc / (batch_id + 1)))
     test_history.append(test_acc / (batch_id + 1))
 ```
-
-![Untitled](%E1%84%80%E1%85%A1%E1%86%B7%E1%84%8C%E1%85%A5%E1%86%BC%20%E1%84%87%E1%85%AE%E1%86%AB%E1%84%85%E1%85%B2%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7%2044433a1fa2b347b2958b1377ed2f119d/Untitled%201.png)
+![Untitled 1](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/52d33242-4cc9-48de-a10a-a12ea059d24d)
 
 - 수정하고 나니, **train dataset에 대해서는 0.979, test dataset에 대해서는 0.918**의 정확도를 기록했다.
 
@@ -552,6 +574,8 @@ for e in range(num_epochs):
 - 입력 문장을 데이터 형식에 맞게 리스트로 생성하고, 이를 데이터셋 형식으로 변환한다.
 - 변환한 데이터셋을 사용하여 데이터 로더를 생성하고, 모델을 eval모드로 바꾼다.
 - 데이터 로더에서 배치별로 데이터를 가져와 모델에 입력하여 예측 결과를 얻어 레이블을 생성하고 출력한다.
+
+![15](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/abb740f7-cafc-450a-8c40-72bbb38354e0)
 
 ```python
 def predict(predict_sentence):
@@ -599,6 +623,8 @@ def predict(predict_sentence):
 
 질문 및 입력을 무한 반복한다. 입력하면 입력한 내용에 따라 `predict()`에서 감정을 분류한 값을 출력한다. `0`을 입력하면 무한 반복이 종료된다.
 
+![16](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/26673eed-794b-4dd8-8d62-10afd1d8e40e)
+
 ```python
 #질문 무한반복하기! 0 입력시 종료
 end = 1
@@ -609,8 +635,9 @@ while end == 1 :
     predict(sentence)
     print("\n")
 ```
+![result(2)](https://github.com/Mingguriguri/AI_emotion_classification/assets/101111603/33f8a06a-b7e2-4619-a77d-eca6bfd11b1d)
 
-![Untitled](%E1%84%80%E1%85%A1%E1%86%B7%E1%84%8C%E1%85%A5%E1%86%BC%20%E1%84%87%E1%85%AE%E1%86%AB%E1%84%85%E1%85%B2%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7%2044433a1fa2b347b2958b1377ed2f119d/Untitled%202.png)
+
 
 # 결론
 
@@ -620,7 +647,7 @@ while end == 1 :
 
 ---
 
-참고자료인공지능
+참고자료
 
 - [https://hoit1302.tistory.com/159](https://hoit1302.tistory.com/159)
 - [https://github.com/SKTBrain/KoBERT/blob/master/scripts/NSMC/naver_review_classifications_pytorch_kobert.ipynb](https://github.com/SKTBrain/KoBERT/blob/master/scripts/NSMC/naver_review_classifications_pytorch_kobert.ipynb)
